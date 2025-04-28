@@ -1,22 +1,38 @@
-CREATE TABLE pasien (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nama VARCHAR(100),
-    alamat TEXT
+-- Hapus tabel dulu kalau sudah ada
+DROP TABLE IF EXISTS kunjungan;
+DROP TABLE IF EXISTS dokter;
+DROP TABLE IF EXISTS pasien;
+DROP TABLE IF EXISTS poli;
+
+-- Buat tabel poli
+CREATE TABLE poli (
+    id CHAR(13) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL
 );
 
+-- Buat tabel pasien
+CREATE TABLE pasien ( 
+    id CHAR(13) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    alamat TEXT NOT NULL
+);
+
+-- Buat tabel dokter
 CREATE TABLE dokter (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nama VARCHAR(100),
-    spesialis VARCHAR(100)
+    id CHAR(13) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    spesialis VARCHAR(100) NOT NULL
 );
 
+-- Buat tabel kunjungan
 CREATE TABLE kunjungan (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_pasien INT,
-    id_dokter INT,
-    poli VARCHAR(100),
-    tanggal DATE,
-    keluhan TEXT,
-    FOREIGN KEY (id_pasien) REFERENCES pasien(id),
-    FOREIGN KEY (id_dokter) REFERENCES dokter(id)
+    id CHAR(13) PRIMARY KEY,
+    id_pasien CHAR(13) NOT NULL,
+    id_dokter CHAR(13) NOT NULL,
+    id_poli CHAR(13) NOT NULL,
+    tanggal DATE NOT NULL,
+    keluhan TEXT NOT NULL,
+    CONSTRAINT fk_pasien FOREIGN KEY (id_pasien) REFERENCES pasien(id) ON DELETE CASCADE,
+    CONSTRAINT fk_dokter FOREIGN KEY (id_dokter) REFERENCES dokter(id) ON DELETE CASCADE,
+    CONSTRAINT fk_poli FOREIGN KEY (id_poli) REFERENCES poli(id) ON DELETE CASCADE
 );
